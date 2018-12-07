@@ -1,0 +1,100 @@
+{
+  "name": "quintals",
+  "version": "0.0.1",
+  "description": "",
+  "main": "./dist/main.js",
+  "scripts": {
+    "start": "cross-env ENV=development electron ./dist/main.js",
+    "dev": "concurrently \"npm run watch-renderer\" \"npm run watch-main\"",
+    "watch-renderer": "webpack-dev-server --config webpack.config.renderer.dev.js  --watch --mode development",
+    "watch-main": "webpack --config webpack.config.main.js --watch --mode development",
+    "build-renderer": "webpack --config webpack.config.renderer.prod.js",
+    "build-main": "webpack --config webpack.config.main.js --mode production",
+    "build": "concurrently \"npm run build-renderer\" \"npm run build-main\" electron-builder ",
+    "build-win": "npm run build && electron-builder -w -p always",
+    "build-mac": "npm run build && electron-builder -m -p always",
+    "build-linux": "npm run build && electron-builder -l -p always",
+    "lint": "tslint \"src/**/*.ts*\"",
+    "lint-fix": "prettier --write \"src/**/*.ts*\" && tslint \"src/**/*.ts*\" --fix",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint"
+    }
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/test/.+\\.spec)\\.tsx?$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json",
+      "node"
+    ]
+  },
+  "author": {
+    "name": "xdk78",
+    "email": "xdk78888@gmail.com"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@types/electron-devtools-installer": "^2.2.0",
+    "@types/jest": "^23.3.10",
+    "@types/react": "^16.7.10",
+    "@types/react-dom": "^16.0.11",
+    "@types/react-hot-loader": "^4.1.0",
+    "@types/react-loadable": "^5.4.2",
+    "@types/react-redux": "^6.0.10",
+    "@types/react-router": "^4.4.1",
+    "@types/react-router-dom": "^4.3.1",
+    "@types/react-test-renderer": "^16.0.3",
+    "@types/webpack-env": "^1.13.6",
+    "awesome-typescript-loader": "^5.2.1",
+    "babel-loader": "^8.0.4",
+    "babel-plugin-styled-components": "^1.9.2",
+    "bluebird": "^3.5.3",
+    "concurrently": "^4.1.0",
+    "cross-env": "^5.2.0",
+    "css-loader": "^1.0.1",
+    "electron": "^3.0.10",
+    "electron-builder": "^20.38.2",
+    "electron-devtools-installer": "^2.2.4",
+    "file-loader": "^2.0.0",
+    "html-webpack-plugin": "^3.2.0",
+    "husky": "^1.2.0",
+    "image-webpack-loader": "^4.5.0",
+    "jest": "^23.6.0",
+    "prettier": "^1.15.3",
+    "react-hot-loader": "^4.3.12",
+    "react-test-renderer": "^16.6.3",
+    "redux-devtools-extension": "^2.13.7",
+    "source-map-loader": "^0.2.4",
+    "spectron": "^5.0.0",
+    "style-loader": "^0.23.1",
+    "ts-jest": "^23.10.5",
+    "tslint": "^5.11.0",
+    "tslint-config-airbnb": "^5.11.1",
+    "tslint-config-prettier": "^1.17.0",
+    "typescript": "^3.2.1",
+    "uglifyjs-webpack-plugin": "^2.0.1",
+    "url-loader": "^1.1.2",
+    "webpack": "^4.26.1",
+    "webpack-cli": "^3.1.2",
+    "webpack-dev-server": "^3.1.10",
+    "webpack-merge": "^4.1.4"
+  },
+  "dependencies": {
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-loadable": "^5.5.0",
+    "react-redux": "^5.1.1",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
+    "redux": "^4.0.1",
+    "styled-components": "^4.1.2"
+  }
+}

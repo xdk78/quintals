@@ -1,0 +1,24 @@
+{
+  "productName": "Quintals",
+  "appId": "org.xdk78.quintals",
+  "asar": true,
+  "directories": {
+    "output": "build"
+  },
+  "linux": {
+    "category": "Music",
+    "target": [
+      {
+        "target": "deb",
+        "arch": ["ia32", "x64"]
+      },
+      {
+        "target": "AppImage",
+        "arch": ["ia32", "x64"]
+      }
+    ]
+  },
+  "win": {
+    "target": ["zip", "nsis"]
+  }
+}
