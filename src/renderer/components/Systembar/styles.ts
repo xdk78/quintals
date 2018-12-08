@@ -12,7 +12,7 @@ const Wrapper = styled.div`
 const WrapperLine = styled.div`
   display: flex;
   flex-direction: row;
-  height: 1px;
+  height: 2px;
   background: transparent;
   -webkit-app-region: no-drag;
 `
@@ -44,7 +44,7 @@ const Button = styled.div`
     background: rgba(255, 255, 255, 0.24);
   }
   font-size: 18px;
-  margin-top: -1px;
+  margin-top: -2px;
   padding: 4px;
 `
 
@@ -55,7 +55,7 @@ const TextButton = styled.div`
     background: rgba(255, 255, 255, 0.24);
   }
   font-size: 14px;
-  margin-top: -1px;
+  margin-top: -2px;
   padding: 4px;
 `
 
