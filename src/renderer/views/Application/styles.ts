@@ -10,16 +10,11 @@ const InnerWrapper = styled.div`
   flex-direction: row;
   flex: 1;
 `
-const MessagesColumn = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-`
 
 const FirstColumn = styled.div`
   display: flex;
   flex-flow: column;
-  flex: 0.6;
+  flex: 0.8;
 `
 
 const SecondColumn = styled.div`
@@ -34,4 +29,4 @@ const ThirdColumn = styled.div`
   flex-flow: column;
 `
 
-export { MainWrapper, InnerWrapper, MessagesColumn, FirstColumn, SecondColumn, ThirdColumn }
+export { MainWrapper, InnerWrapper, FirstColumn, SecondColumn, ThirdColumn }

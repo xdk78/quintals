@@ -3,6 +3,7 @@ import * as React from 'react'
 import Directory from './Directory'
 import File from './File'
 import { getAllFiles } from '../../utils/files'
+import { ItemWrapper, TreeWrapper } from './styles'
 
 interface IProps {
   readonly directory: string
@@ -54,7 +55,7 @@ export default class FileTree extends React.Component<IProps, IState> {
     const files = this.state.files
     return (
       files.length > 0 && (
-        <ul>
+        <TreeWrapper>
           {files.map(file => {
             const filePath = file.filePath
             const fileName = filePath
@@ -63,7 +64,7 @@ export default class FileTree extends React.Component<IProps, IState> {
               .join('')
 
             return file.isDirectory ? (
-              <li key={`${filePath}_directory`}>
+              <ItemWrapper key={`${filePath}_directory`}>
                 <div onClick={this.handleDirectoryClick(file)}>
                   <Directory visible={this.props.isVisible[file.filePath]} />
                   {fileName}
@@ -80,15 +81,15 @@ export default class FileTree extends React.Component<IProps, IState> {
                       isVisible={this.props.isVisible}
                     />
                   ))}
-              </li>
+              </ItemWrapper>
             ) : (
-              <li key={filePath} onClick={this.onFileClick(file)}>
+              <ItemWrapper key={filePath} onClick={this.onFileClick(file)}>
                 <File />
                 {fileName}
-              </li>
+              </ItemWrapper>
             )
           })}
-        </ul>
+        </TreeWrapper>
       )
     )
   }
