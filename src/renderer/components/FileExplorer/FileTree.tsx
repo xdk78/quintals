@@ -6,7 +6,7 @@ import { getAllFiles } from '../../utils/files'
 
 interface IProps {
   readonly directory: string
-  readonly isVisible?: any | boolean
+  readonly isVisible?: boolean
   readonly files?: any
   readonly onFileClick?: any
   readonly toggleVisibility?: any
@@ -37,7 +37,7 @@ export default class FileTree extends React.Component<IProps, IState> {
     }
   }
 
-  handleDirectoryClick = e => file => {
+  handleDirectoryClick = file => e => {
     this.props.toggleVisibility(file.filePath)
     if ((this.props.openedDirectories && !this.props.openedDirectories[file.filePath]) || this.props.isVisible[file.filePath]) {
       return getAllFiles(file.filePath)
@@ -46,7 +46,7 @@ export default class FileTree extends React.Component<IProps, IState> {
     }
   }
 
-  onFileClick = e => file => {
+  onFileClick = file => e => {
     this.props.onFileClick && this.props.onFileClick(file)
   }
 
