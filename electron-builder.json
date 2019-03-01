@@ -3,8 +3,9 @@
   "appId": "org.xdk78.quintals",
   "asar": true,
   "directories": {
-    "output": "build"
+    "output": "dist"
   },
+  "files": ["build/**/*", "package.json"],
   "linux": {
     "category": "Music",
     "target": [

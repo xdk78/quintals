@@ -12,9 +12,9 @@ import { Provider } from 'react-redux'
 
 const GlobalStyle = createGlobalStyle`${style}`
 
-const ApplicationContainer = Loadable({
+const Application = Loadable({
   loader: () => import('../views/Application'),
-  loading: () => <Loading />
+  loading: Loading
 })
 
 const render = () => {
@@ -26,7 +26,7 @@ const render = () => {
           <Systembar />
           <Router>
             <Switch>
-              <Route exact={true} path="/" component={ApplicationContainer} />
+              <Route path="/" component={Application} />
             </Switch>
           </Router>
         </AppWrapper>
@@ -39,6 +39,6 @@ const render = () => {
 render()
 
 // react-hot-loader
-if (module.hot) {
-  module.hot.accept()
+if ((module as any).hot) {
+  (module as any).hot.accept()
 }

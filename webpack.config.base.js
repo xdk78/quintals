@@ -1,4 +1,4 @@
-const { resolve } = require('path')
+const { resolve, join } = require('path')
 
 module.exports = {
   module: {
@@ -7,19 +7,17 @@ module.exports = {
         test: /\.(tsx|ts|jsx|js)$/,
         include: resolve(__dirname, 'src'),
         exclude: /node_modules/,
-        use: ['awesome-typescript-loader'],
-      },
-    ],
+        use: ['awesome-typescript-loader']
+      }
+    ]
   },
 
   node: {
     __dirname: false,
-    __filename: false,
+    __filename: false
   },
 
   resolve: {
-    modules: ['node_modules'],
-    extensions: ['.js', '.tsx', '.ts', '.json'],
-  },
-
+    extensions: ['.ts', '.tsx', '.js', '.jsx']
+  }
 }

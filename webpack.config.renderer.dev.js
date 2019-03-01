@@ -3,7 +3,8 @@ const merge = require('webpack-merge')
 const { resolve } = require('path')
 const baseConfig = require('./webpack.config.base')
 const spawn = require('child_process').spawn
-const PORT = 2003
+
+const PORT = 8080
 
 const config = merge.smart(baseConfig, {
   devtool: 'eval-source-map',
@@ -12,42 +13,43 @@ const config = merge.smart(baseConfig, {
     hotUpdateChunkFilename: 'hot/hot-update.js',
     hotUpdateMainFilename: 'hot/hot-update.json',
     publicPath: `http://localhost:${PORT}/`,
-    path: resolve(__dirname, 'dist'),
-    filename: '[name].js',
+    path: resolve(__dirname, 'build'),
+    filename: '[name].js'
   },
 
   module: {
     rules: [
       {
         test: /\.(png|gif|jpg|woff2|ttf|svg)$/,
-        use: ['url-loader'],
+        use: ['url-loader']
       },
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader']
       }
-    ],
+    ]
   },
 
-  plugins: [new webpack.HotModuleReplacementPlugin()],
+  plugins: [new webpack.HotModuleReplacementPlugin()]
 })
 
 const appConfig = merge.smart(config, {
   target: 'electron-renderer',
+
   entry: {
-    app: ['react-hot-loader/patch', './src/renderer/app'],
+    app: ['react-hot-loader/patch', './src/renderer/app']
   },
 
   devServer: {
-    contentBase: './src/',
+    contentBase: './public',
     port: PORT,
     stats: {
-      colors: true,
+      colors: true
     },
     watchOptions: {
       aggregateTimeout: 300,
       ignored: /node_modules/,
-      poll: 100,
+      poll: 100
     },
     hot: true,
     inline: true,
@@ -61,7 +63,7 @@ const appConfig = merge.smart(config, {
         .on('close', code => process.exit(code))
         .on('error', spawnError => console.error(spawnError))
     }
-  },
+  }
 })
 
 module.exports = [appConfig]

@@ -2,8 +2,10 @@ import * as React from 'react'
 
 import Directory from './Directory'
 import File from './File'
-import { getAllFiles } from '../../utils/files'
+import { getAllFiles, TFile, parseFileUri } from '../../utils/files'
 import { ItemWrapper, TreeWrapper } from './styles'
+import { Howl } from 'howler'
+import { resolve } from 'path'
 
 interface IProps {
   readonly directory: string
@@ -40,15 +42,32 @@ export default class FileTree extends React.Component<IProps, IState> {
 
   handleDirectoryClick = file => e => {
     this.props.toggleVisibility(file.filePath)
-    if ((this.props.openedDirectories && !this.props.openedDirectories[file.filePath]) || this.props.isVisible[file.filePath]) {
+    if (
+      (this.props.openedDirectories && !this.props.openedDirectories[file.filePath]) ||
+      this.props.isVisible[file.filePath]
+    ) {
       return getAllFiles(file.filePath)
         .then(files => this.props.dispatchOpenDirectory(file.filePath, files))
         .catch(console.error)
     }
   }
 
-  onFileClick = file => e => {
+  onFileClick = (file: TFile) => e => {
     this.props.onFileClick && this.props.onFileClick(file)
+
+    const path = file.filePath
+    const parsedFile = parseFileUri(path)
+
+    const sound = new Howl({
+      src: [parsedFile],
+      onload() {
+        console.log(`Loaded ${parsedFile}`)
+      },
+      onend(soundId) {
+        console.log(`Finished ${parsedFile} ${soundId}`)
+      }
+    })
+    sound.play()
   }
 
   render() {

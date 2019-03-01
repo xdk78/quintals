@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, session } from 'electron'
 import * as path from 'path'
 import * as url from 'url'
 
@@ -8,7 +8,7 @@ let loading: BrowserWindow | null
 const installExtensions = async () => {
   const installer = require('electron-devtools-installer')
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS
-  const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS', 'APOLLO_DEVELOPER_TOOLS']
+  const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS']
 
   return Promise.all(extensions.map(name => installer.default(installer[name], forceDownload))).catch(console.log)
 }
@@ -26,7 +26,10 @@ const createWindow = async () => {
     title: 'Quintals',
     show: false,
     frame: false,
-    backgroundColor: '#202020'
+    backgroundColor: '#202020',
+    webPreferences: {
+      webSecurity: false
+    }
   })
 
   loading = new BrowserWindow({
@@ -47,8 +50,30 @@ const createWindow = async () => {
     })
 
     if (process.env.NODE_ENV !== 'production') {
-      win.loadURL(`http://localhost:2003`)
+      loading.loadURL(
+        url.format({
+          protocol: 'http:',
+          host: 'localhost:8080',
+          pathname: 'loading.html',
+          slashes: true
+        })
+      )
+      win.loadURL(
+        url.format({
+          protocol: 'http:',
+          host: 'localhost:8080',
+          pathname: 'index.html',
+          slashes: true
+        })
+      )
     } else {
+      loading.loadURL(
+        url.format({
+          pathname: path.join(__dirname, 'loading.html'),
+          protocol: 'file:',
+          slashes: true
+        })
+      )
       win.loadURL(
         url.format({
           pathname: path.join(__dirname, 'index.html'),
@@ -59,23 +84,6 @@ const createWindow = async () => {
     }
   })
 
-  if (process.env.NODE_ENV !== 'production') {
-    loading.loadURL(
-      url.format({
-        pathname: path.join(__dirname, '..', 'src', 'loading.html'),
-        protocol: 'file:',
-        slashes: true
-      })
-    )
-  } else {
-    win.loadURL(
-      url.format({
-        pathname: path.join(__dirname, 'loading.html'),
-        protocol: 'file:',
-        slashes: true
-      })
-    )
-  }
   loading.show()
 
   if (process.env.NODE_ENV !== 'production') {
@@ -87,6 +95,9 @@ const createWindow = async () => {
     win = null
   })
 }
+
+// Bypass Web Audio autoplay policy
+app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required')
 
 app.on('ready', createWindow)
 

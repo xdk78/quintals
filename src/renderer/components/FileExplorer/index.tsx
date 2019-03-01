@@ -1,16 +1,16 @@
 import * as React from 'react'
 import { Wrapper } from './styles'
-import Loadable from 'react-loadable'
+import * as Loadable from 'react-loadable'
 import Loading from '../Loading'
 
 const FileTree = Loadable({
   loader: () => import('../../containers/FileTreeContainer'),
-  loading: () => <Loading />
+  loading: Loading
 })
 
 class FileExplorer extends React.Component {
   state = {
-    directory: './src'
+    directory: `./`
   }
 
   render() {

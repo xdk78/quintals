@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components'
 const fonts = {
   robotoRegular: require('../assets/fonts/Roboto/Roboto-Light.ttf'),
   robotoMedium: require('../assets/fonts/Roboto/Roboto-Medium.ttf'),
-  robotoLight: require('../assets/fonts/Roboto/Roboto-Light.ttf'),
+  robotoLight: require('../assets/fonts/Roboto/Roboto-Light.ttf')
 }
 
 export const style = css`
@@ -39,7 +39,6 @@ export const style = css`
     overflow: hidden;
     user-select: none;
   }
-
 `
 export const AppWrapper = styled.div`
   flex: 1;
