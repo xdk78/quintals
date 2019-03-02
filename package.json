@@ -38,7 +38,6 @@
   "license": "MIT",
   "devDependencies": {
     "@types/electron-devtools-installer": "^2.2.0",
-    "@types/howler": "^2.0.6",
     "@types/jest": "^24.0.9",
     "@types/react": "^16.8.6",
     "@types/react-dom": "^16.8.2",
@@ -84,7 +83,7 @@
     "webpack-merge": "^4.2.1"
   },
   "dependencies": {
-    "howler": "^2.1.1",
+    "audio-decode": "^1.4.0",
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-loadable": "^5.5.0",

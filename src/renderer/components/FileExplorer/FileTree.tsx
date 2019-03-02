@@ -4,8 +4,7 @@ import Directory from './Directory'
 import File from './File'
 import { getAllFiles, TFile, parseFileUri } from '../../utils/files'
 import { ItemWrapper, TreeWrapper } from './styles'
-import { Howl } from 'howler'
-import { resolve } from 'path'
+import audioDecode from 'audio-decode'
 
 interface IProps {
   readonly directory: string
@@ -58,16 +57,21 @@ export default class FileTree extends React.Component<IProps, IState> {
     const path = file.filePath
     const parsedFile = parseFileUri(path)
 
-    const sound = new Howl({
-      src: [parsedFile],
-      onload() {
-        console.log(`Loaded ${parsedFile}`)
-      },
-      onend(soundId) {
-        console.log(`Finished ${parsedFile} ${soundId}`)
-      }
-    })
-    sound.play()
+    if (parsedFile) {
+      // TODO: use native fs to laod file instead getting it from url
+      fetch(parsedFile)
+        .then(response => response.arrayBuffer())
+        .then(buffer => {
+          audioDecode(buffer).then((audioBuffer: AudioBuffer) => {
+            const audioContext = new AudioContext()
+            const source = audioContext.createBufferSource()
+
+            source.buffer = audioBuffer
+            source.connect(audioContext.destination)
+            source.start()
+          })
+        })
+    }
   }
 
   render() {

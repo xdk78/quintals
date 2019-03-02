@@ -7,7 +7,7 @@ Promise.config({
   }
 })
 
-const fs = Promise.promisifyAll(require('fs'))
+const fsp = Promise.promisifyAll(require('fs'))
 
 export type TFile = {
   filePath: string
@@ -18,9 +18,9 @@ export type TFile = {
  * Returns files for for given path recursively
  */
 export const getAllFiles = (dir: string) => {
-  return fs.readdirAsync(dir).then((fileNamesArr: string[]) => {
+  return fsp.readdirAsync(dir).then((fileNamesArr: string[]) => {
     const fileStatPromises = fileNamesArr.map((fileName: string) => {
-      return fs.statAsync(`${dir}/${fileName}`).then(stats => {
+      return fsp.statAsync(`${dir}/${fileName}`).then(stats => {
         const file = {
           filePath: null,
           isDirectory: null
