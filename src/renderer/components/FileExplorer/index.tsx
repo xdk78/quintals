@@ -8,7 +8,7 @@ const FileTree = Loadable({
   loading: Loading
 })
 
-class FileExplorer extends React.Component {
+class FileExplorer extends React.PureComponent {
   state = {
     directory: `./`
   }

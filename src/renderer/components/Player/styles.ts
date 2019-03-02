@@ -15,4 +15,14 @@ const Button = styled.div`
   padding: 4px;
 `
 
-export { Wrapper, Button }
+const Time = styled.div`
+  cursor: default;
+  padding: 4px;
+  font-size: 18px;
+  font-weight: 500;
+  color: #000;
+  width: 62px;
+  background-color: #cddc39;
+`
+
+export { Wrapper, Time, Button }

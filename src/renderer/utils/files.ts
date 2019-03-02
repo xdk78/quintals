@@ -12,6 +12,7 @@ const fsp = Promise.promisifyAll(require('fs'))
 export type TFile = {
   filePath: string
   isDirectory: boolean
+  extension: string
 }
 
 /**
@@ -23,10 +24,12 @@ export const getAllFiles = (dir: string) => {
       return fsp.statAsync(`${dir}/${fileName}`).then(stats => {
         const file = {
           filePath: null,
-          isDirectory: null
+          isDirectory: null,
+          extension: null
         } as TFile
         file.filePath = `${dir}/${fileName}`
         file.isDirectory = !stats.isFile()
+        file.extension = fileName.split('.').pop()
         return file
       })
     })

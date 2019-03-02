@@ -20,7 +20,7 @@ interface IState {
   files: any
 }
 
-export default class FileTree extends React.Component<IProps, IState> {
+export default class FileTree extends React.PureComponent<IProps, IState> {
   state = {
     files: this.props.files || []
   }
@@ -54,10 +54,11 @@ export default class FileTree extends React.Component<IProps, IState> {
   onFileClick = (file: TFile) => e => {
     this.props.onFileClick && this.props.onFileClick(file)
 
-    const path = file.filePath
-    const parsedFile = parseFileUri(path)
+    const { filePath, extension } = file
 
-    if (parsedFile) {
+    const parsedFile = parseFileUri(filePath)
+
+    if (parsedFile && extension === 'wav') {
       // TODO: use native fs to laod file instead getting it from url
       fetch(parsedFile)
         .then(response => response.arrayBuffer())
