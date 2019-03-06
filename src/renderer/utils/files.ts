@@ -1,5 +1,6 @@
 import Promise from 'bluebird'
 import path from 'path'
+import { remote, app } from 'electron'
 
 Promise.config({
   warnings: {
@@ -43,4 +44,21 @@ export const getAllFiles = (dir: string) => {
 export const parseFileUri = (uri: string): string => {
   const location = path.resolve(uri)
   return location
+}
+
+/**
+ * Returns file path from user data
+ */
+export const getUserData = (...relativePaths: string[]) => {
+  let filePath: string
+
+  if (remote) {
+    filePath = remote.app.getPath('userData')
+  } else if (app) {
+    filePath = app.getPath('userData')
+  } else {
+    return null
+  }
+
+  return path.resolve(filePath, ...relativePaths).replace(/\\/g, '/')
 }

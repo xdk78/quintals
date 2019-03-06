@@ -1,7 +1,8 @@
-import { app, BrowserWindow, app as electronApp } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 import * as path from 'path'
 import * as url from 'url'
 import installExtension, { REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } from 'electron-devtools-installer'
+import { homedir } from 'os'
 
 let win: BrowserWindow | null
 
@@ -46,7 +47,7 @@ const createWindow = async () => {
     win.loadURL(
       url.format({
         protocol: 'file:',
-        pathname: path.join(electronApp.getAppPath(), 'build/app.html'),
+        pathname: path.join(app.getAppPath(), 'build/app.html'),
         slashes: true
       })
     )
@@ -63,6 +64,10 @@ const createWindow = async () => {
     win = null
   })
 }
+
+ipcMain.setMaxListeners(0)
+
+app.setPath('userData', path.resolve(homedir(), '.quintals'))
 
 // Bypass Web Audio autoplay policy
 app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required')
