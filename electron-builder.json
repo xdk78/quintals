@@ -6,6 +6,7 @@
     "output": "dist"
   },
   "files": ["build/**/*", "package.json"],
+  "publish": "github",
   "linux": {
     "category": "Music",
     "target": [
@@ -21,5 +22,8 @@
   },
   "win": {
     "target": ["zip", "nsis"]
+  },
+  "mac": {
+    "category": "public.app-category.music"
   }
 }

@@ -9,12 +9,15 @@
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "lib": ["dom", "esnext"],
-    "baseUrl": "./"
+    "baseUrl": "./",
+    "removeComments": true,
+    "isolatedModules": false,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
   },
-  "awesomeTypescriptLoaderOptions": {
-    "reportFiles": ["src/**/*.{ts,tsx}"],
-    "useCache": true
+  "atom": {
+    "rewriteTsconfig": false
   },
-  "exclude": ["node_modules", "dist", "build"],
-  "include": ["src/**/*"]
+  "exclude": ["node_modules/"],
+  "include": ["src/"]
 }

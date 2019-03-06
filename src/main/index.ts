@@ -1,21 +1,22 @@
-import { app, BrowserWindow, session } from 'electron'
+import { app, BrowserWindow, app as electronApp } from 'electron'
 import * as path from 'path'
 import * as url from 'url'
+import installExtension, { REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } from 'electron-devtools-installer'
 
 let win: BrowserWindow | null
-let loading: BrowserWindow | null
 
 const installExtensions = async () => {
-  const installer = require('electron-devtools-installer')
-  const forceDownload = !!process.env.UPGRADE_EXTENSIONS
-  const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS']
-
-  return Promise.all(extensions.map(name => installer.default(installer[name], forceDownload))).catch(console.log)
+  installExtension(REACT_DEVELOPER_TOOLS)
+    .then(name => console.log(`Added Extension:  ${name}`))
+    .catch(err => console.log('An error occurred: ', err))
+  installExtension(REDUX_DEVTOOLS)
+    .then(name => console.log(`Added Extension:  ${name}`))
+    .catch(err => console.log('An error occurred: ', err))
 }
 
 const createWindow = async () => {
   if (process.env.NODE_ENV !== 'production') {
-    await installExtensions()
+    installExtensions()
   }
 
   win = new BrowserWindow({
@@ -32,59 +33,26 @@ const createWindow = async () => {
     }
   })
 
-  loading = new BrowserWindow({
-    width: 350,
-    height: 350,
-    resizable: false,
-    title: 'Quintals',
-    show: false,
-    frame: false,
-    backgroundColor: '#202020'
-  })
+  if (process.env.NODE_ENV !== 'production') {
+    win.loadURL(
+      url.format({
+        protocol: 'http:',
+        host: 'localhost:4444',
+        pathname: 'app.html',
+        slashes: true
+      })
+    )
+  } else {
+    win.loadURL(
+      url.format({
+        protocol: 'file:',
+        pathname: path.join(electronApp.getAppPath(), 'build/app.html'),
+        slashes: true
+      })
+    )
+  }
 
-  loading.once('show', () => {
-    win.webContents.once('dom-ready', () => {
-      win.show()
-      loading.hide()
-      loading.close()
-    })
-
-    if (process.env.NODE_ENV !== 'production') {
-      loading.loadURL(
-        url.format({
-          protocol: 'http:',
-          host: 'localhost:8080',
-          pathname: 'loading.html',
-          slashes: true
-        })
-      )
-      win.loadURL(
-        url.format({
-          protocol: 'http:',
-          host: 'localhost:8080',
-          pathname: 'index.html',
-          slashes: true
-        })
-      )
-    } else {
-      loading.loadURL(
-        url.format({
-          pathname: path.join(__dirname, 'loading.html'),
-          protocol: 'file:',
-          slashes: true
-        })
-      )
-      win.loadURL(
-        url.format({
-          pathname: path.join(__dirname, 'index.html'),
-          protocol: 'file:',
-          slashes: true
-        })
-      )
-    }
-  })
-
-  loading.show()
+  win.show()
 
   if (process.env.NODE_ENV !== 'production') {
     // Open DevTools

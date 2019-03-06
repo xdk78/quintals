@@ -4,6 +4,6 @@ node_js:
 script: "npm run lint"
 # deploy:
 #   provider: script
-#   script: npm install && npm run build
+#   script: npm i && npm run compile
 #   on:
 #     branch: stable

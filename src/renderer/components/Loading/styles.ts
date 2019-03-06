@@ -10,10 +10,4 @@ const Wrapper = styled.div`
   margin: 0;
 `
 
-const Mascot = styled.img`
-  width: 128px;
-  height: 128px;
-  margin-bottom: 8px;
-`
-
-export { Wrapper, Mascot }
+export { Wrapper }
