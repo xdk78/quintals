@@ -1,16 +1,17 @@
-import Promise from 'bluebird'
+import BPromise from 'bluebird'
 import path from 'path'
 import { remote, app } from 'electron'
+import { constants } from 'fs'
 
-Promise.config({
+BPromise.config({
   warnings: {
     wForgottenReturn: false
   }
 })
 
-const fsp = Promise.promisifyAll(require('fs'))
+const fsPromises = BPromise.promisifyAll(require('fs'))
 
-export type TFile = {
+export interface QFile {
   filePath: string
   isDirectory: boolean
   extension: string
@@ -19,22 +20,18 @@ export type TFile = {
 /**
  * Returns files for for given path recursively
  */
-export const getAllFiles = (dir: string) => {
-  return fsp.readdirAsync(dir).then((fileNamesArr: string[]) => {
+export const getAllFiles = (dir: string): BPromise<BPromise<QFile>[]> => {
+  return fsPromises.readdirAsync(dir).then((fileNamesArr: string[]) => {
     const fileStatPromises = fileNamesArr.map((fileName: string) => {
-      return fsp.statAsync(`${dir}/${fileName}`).then(stats => {
-        const file = {
-          filePath: null,
-          isDirectory: null,
-          extension: null
-        } as TFile
-        file.filePath = `${dir}/${fileName}`
-        file.isDirectory = !stats.isFile()
-        file.extension = fileName.split('.').pop()
-        return file
+      return fsPromises.statAsync(`${dir}/${fileName}`).then(stats => {
+        return {
+          filePath: `${dir}/${fileName}`,
+          isDirectory: !stats.isFile(),
+          extension: fileName.split('.').pop()
+        } as QFile
       })
     })
-    return Promise.all(fileStatPromises)
+    return BPromise.all(fileStatPromises)
   })
 }
 
@@ -49,7 +46,7 @@ export const parseFileUri = (uri: string): string => {
 /**
  * Returns file path from user data
  */
-export const getUserData = (...relativePaths: string[]) => {
+export const getUserData = (...relativePaths: string[]): string => {
   let filePath: string
 
   if (remote) {
@@ -61,4 +58,17 @@ export const getUserData = (...relativePaths: string[]) => {
   }
 
   return path.resolve(filePath, ...relativePaths).replace(/\\/g, '/')
+}
+
+/**
+ * Returns resources path from user data
+ */
+export const getResourcesData = async (): Promise<string> => {
+  const resourcesPath = getUserData('resources')
+
+  fsPromises.accessAsync(resourcesPath, constants.R_OK | constants.W_OK).catch(async () => {
+    await fsPromises.mkdirAsync(resourcesPath)
+  })
+
+  return resourcesPath
 }

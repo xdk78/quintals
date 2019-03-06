@@ -2,14 +2,14 @@ import * as React from 'react'
 
 import Directory from './Directory'
 import File from './File'
-import { getAllFiles, TFile, parseFileUri } from '../../utils/files'
+import { getAllFiles, QFile, parseFileUri } from '../../utils/files'
 import { ItemWrapper, TreeWrapper } from './styles'
 import audioDecode from 'audio-decode'
 
 interface IProps {
   readonly directory: string
   readonly isVisible?: boolean
-  readonly files?: any
+  readonly files?: any[]
   readonly onFileClick?: any
   readonly toggleVisibility?: any
   readonly openedDirectories?: any
@@ -20,7 +20,7 @@ interface IState {
   files: any
 }
 
-export default class FileTree extends React.PureComponent<IProps, IState> {
+export default class FileTree extends React.Component<IProps, IState> {
   state = {
     files: this.props.files || []
   }
@@ -51,7 +51,7 @@ export default class FileTree extends React.PureComponent<IProps, IState> {
     }
   }
 
-  onFileClick = (file: TFile) => e => {
+  onFileClick = (file: QFile) => e => {
     this.props.onFileClick && this.props.onFileClick(file)
 
     const { filePath, extension } = file
@@ -78,6 +78,7 @@ export default class FileTree extends React.PureComponent<IProps, IState> {
   render() {
     const files = this.state.files
     return (
+      files &&
       files.length > 0 && (
         <TreeWrapper>
           {files.map(file => {
