@@ -1,15 +1,14 @@
-import BPromise from 'bluebird'
 import path from 'path'
-import { remote, app } from 'electron'
-import { constants } from 'fs'
+import { remote } from 'electron'
+import { constants, readdir, stat, access, mkdir } from 'fs'
+import { promisify } from 'util'
 
-BPromise.config({
-  warnings: {
-    wForgottenReturn: false
-  }
-})
-
-const fsPromises = BPromise.promisifyAll(require('fs'))
+const fsPromises = {
+  readdir: promisify(readdir),
+  stat: promisify(stat),
+  access: promisify(access),
+  mkdir: promisify(mkdir)
+}
 
 export interface QFile {
   filePath: string
@@ -20,10 +19,10 @@ export interface QFile {
 /**
  * Returns files for for given path recursively
  */
-export const getAllFiles = (dir: string): BPromise<BPromise<QFile>[]> => {
-  return fsPromises.readdirAsync(dir).then((fileNamesArr: string[]) => {
+export const getAllFiles = (dir: string): Promise<QFile[]> => {
+  return fsPromises.readdir(dir).then((fileNamesArr: string[]) => {
     const fileStatPromises = fileNamesArr.map((fileName: string) => {
-      return fsPromises.statAsync(`${dir}/${fileName}`).then(stats => {
+      return fsPromises.stat(`${dir}/${fileName}`).then(stats => {
         return {
           filePath: `${dir}/${fileName}`,
           isDirectory: !stats.isFile(),
@@ -31,7 +30,7 @@ export const getAllFiles = (dir: string): BPromise<BPromise<QFile>[]> => {
         } as QFile
       })
     })
-    return BPromise.all(fileStatPromises)
+    return Promise.all(fileStatPromises)
   })
 }
 
@@ -46,29 +45,28 @@ export const parseFileUri = (uri: string): string => {
 /**
  * Returns file path from user data
  */
-export const getUserData = (...relativePaths: string[]): string => {
-  let filePath: string
-
-  if (remote) {
-    filePath = remote.app.getPath('userData')
-  } else if (app) {
-    filePath = app.getPath('userData')
-  } else {
-    return null
+export const getUserData = (relativePath: string): string => {
+  try {
+    const userData = path.resolve(remote.app.getPath('userData'), relativePath)
+    return userData
+  } catch (error) {
+    console.error(error)
   }
-
-  return path.resolve(filePath, ...relativePaths).replace(/\\/g, '/')
 }
 
 /**
  * Returns resources path from user data
  */
 export const getResourcesData = async (): Promise<string> => {
-  const resourcesPath = getUserData('resources')
+  try {
+    const resourcesPath = getUserData('resources')
 
-  fsPromises.accessAsync(resourcesPath, constants.R_OK | constants.W_OK).catch(async () => {
-    await fsPromises.mkdirAsync(resourcesPath)
-  })
+    fsPromises.access(resourcesPath, constants.R_OK | constants.W_OK).catch(async () => {
+      await fsPromises.mkdir(resourcesPath)
+    })
 
-  return resourcesPath
+    return resourcesPath
+  } catch (error) {
+    console.error(error)
+  }
 }

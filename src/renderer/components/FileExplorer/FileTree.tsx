@@ -2,7 +2,7 @@ import * as React from 'react'
 
 import Directory from './Directory'
 import File from './File'
-import { getAllFiles, QFile, parseFileUri } from '../../utils/files'
+import { getAllFiles, QFile, parseFileUri, getResourcesData } from '../../utils/files'
 import { ItemWrapper, TreeWrapper } from './styles'
 import audioDecode from 'audio-decode'
 

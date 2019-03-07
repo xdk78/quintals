@@ -34,7 +34,6 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@types/bluebird": "^3.5.26",
     "@types/electron-devtools-installer": "^2.2.0",
     "@types/jest": "^24.0.9",
     "@types/react": "^16.8.6",
@@ -45,7 +44,6 @@
     "@types/react-router": "^4.4.4",
     "@types/react-router-dom": "^4.3.1",
     "@types/react-test-renderer": "^16.8.1",
-    "bluebird": "^3.5.3",
     "concurrently": "^4.1.0",
     "cross-env": "^5.2.0",
     "electron": "^4.0.7",
