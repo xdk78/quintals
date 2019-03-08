@@ -14,6 +14,9 @@
     "isolatedModules": false,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "importHelpers": true,
+    "resolveJsonModule": true
   },
   "atom": {
     "rewriteTsconfig": false

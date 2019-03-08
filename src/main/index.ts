@@ -3,6 +3,9 @@ import * as path from 'path'
 import * as url from 'url'
 import installExtension, { REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } from 'electron-devtools-installer'
 import { homedir } from 'os'
+import server from '../server'
+
+const serverApp = server()
 
 let win: BrowserWindow | null
 
@@ -53,6 +56,8 @@ const createWindow = async () => {
     )
   }
 
+  await serverApp.ready()
+
   win.show()
 
   if (process.env.NODE_ENV !== 'production') {
@@ -78,6 +83,7 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
+  serverApp.close(() => {})
 })
 
 app.on('activate', () => {

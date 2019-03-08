@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { withRouter } from 'react-router-dom'
 import { MainWrapper, InnerWrapper, FirstColumn, SecondColumn, ThirdColumn } from './styles'
-import * as Loadable from 'react-loadable'
+import Loadable from 'react-loadable'
 import Loading from '../../components/Loading'
 
 const FileExplorer = Loadable({

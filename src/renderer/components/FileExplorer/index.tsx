@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Wrapper } from './styles'
-import { getResourcesData, getUserData } from '../../utils/files'
+import { getResourcesData, getUserData } from '../../../utils/files'
 import FileTree from '../../containers/FileTreeContainer'
 
 class FileExplorer extends React.Component {

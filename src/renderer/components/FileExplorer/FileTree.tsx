@@ -1,8 +1,7 @@
 import * as React from 'react'
-
 import Directory from './Directory'
 import File from './File'
-import { getAllFiles, QFile, parseFileUri, getResourcesData } from '../../utils/files'
+import { getAllFiles, QFile } from '../../../utils/files'
 import { ItemWrapper, TreeWrapper } from './styles'
 import audioDecode from 'audio-decode'
 
@@ -56,11 +55,9 @@ export default class FileTree extends React.Component<IProps, IState> {
 
     const { filePath, extension } = file
 
-    const parsedFile = parseFileUri(filePath)
-
-    if (parsedFile && extension === 'wav') {
+    if (filePath && extension === 'wav') {
       // TODO: use native fs to laod file instead getting it from url
-      fetch(parsedFile)
+      fetch(filePath)
         .then(response => response.arrayBuffer())
         .then(buffer => {
           audioDecode(buffer).then((audioBuffer: AudioBuffer) => {

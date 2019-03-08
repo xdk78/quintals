@@ -1,7 +1,7 @@
-import path from 'path'
-import { remote } from 'electron'
 import { constants, readdir, stat, access, mkdir } from 'fs'
 import { promisify } from 'util'
+import { homedir } from 'os'
+import { resolve } from 'path'
 
 const fsPromises = {
   readdir: promisify(readdir),
@@ -35,22 +35,14 @@ export const getAllFiles = (dir: string): Promise<QFile[]> => {
 }
 
 /**
- * Parse an URI for File and returns relative path
- */
-export const parseFileUri = (uri: string): string => {
-  const location = path.resolve(uri)
-  return location
-}
-
-/**
  * Returns file path from user data
  */
 export const getUserData = (relativePath: string): string => {
   try {
-    const userData = path.resolve(remote.app.getPath('userData'), relativePath)
+    const userData = resolve(homedir(), '.quintals', relativePath).replace(/\\/g, '/')
     return userData
   } catch (error) {
-    console.error(error)
+    throw error
   }
 }
 
