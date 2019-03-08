@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components'
-import robotoRegular from '../assets/fonts/Roboto/Roboto-Regular.ttf'
-import robotoMedium from '../assets/fonts/Roboto/Roboto-Medium.ttf'
-import robotoLight from '../assets/fonts/Roboto/Roboto-Light.ttf'
+import * as robotoRegular from '../assets/fonts/Roboto/Roboto-Regular.ttf'
+import * as robotoMedium from '../assets/fonts/Roboto/Roboto-Medium.ttf'
+import * as robotoLight from '../assets/fonts/Roboto/Roboto-Light.ttf'
 
 const fonts = {
   robotoRegular,
