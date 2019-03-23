@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { withRouter } from 'react-router-dom'
+import { RouteComponentProps } from 'react-router'
 import { MainWrapper, InnerWrapper, FirstColumn, SecondColumn, ThirdColumn } from './styles'
 import Loadable from 'react-loadable'
 import Loading from '../../components/Loading'
@@ -24,25 +25,21 @@ const Plugins = Loadable({
   loading: Loading
 })
 
-class Application extends React.Component {
-  render() {
-    return (
-      <MainWrapper>
-        <Toolbox />
-        <InnerWrapper>
-          <FirstColumn>
-            <FileExplorer />
-          </FirstColumn>
-          <SecondColumn>
-            <TrackList />
-          </SecondColumn>
-          <ThirdColumn>
-            <Plugins />
-          </ThirdColumn>
-        </InnerWrapper>
-      </MainWrapper>
-    )
-  }
-}
+const Application: React.FunctionComponent<RouteComponentProps> = () => (
+  <MainWrapper>
+    <Toolbox />
+    <InnerWrapper>
+      <FirstColumn>
+        <FileExplorer />
+      </FirstColumn>
+      <SecondColumn>
+        <TrackList />
+      </SecondColumn>
+      <ThirdColumn>
+        <Plugins />
+      </ThirdColumn>
+    </InnerWrapper>
+  </MainWrapper>
+)
 
-export default withRouter(Application as any)
+export default withRouter(Application)
