@@ -1,6 +1,11 @@
 import { connect } from 'react-redux'
 import { RootState } from '../reducers'
-import { OpenDirectoryAction, openDirectory, ToggleVisibilityAction, toggleVisibility } from '../actions/fileTreeActions'
+import {
+  OpenDirectoryAction,
+  openDirectory,
+  ToggleVisibilityAction,
+  toggleVisibility
+} from '../actions/fileTreeActions'
 import { Dispatch } from 'redux'
 import FileTree from '../components/FileExplorer/FileTree'
 

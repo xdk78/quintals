@@ -1,6 +1,11 @@
 import { Reducer } from 'redux'
 
-import { OPEN_DIRECTORY, TOGGLE_VISIBILITY, OpenDirectoryAction, ToggleVisibilityAction } from '../actions/fileTreeActions'
+import {
+  OPEN_DIRECTORY,
+  TOGGLE_VISIBILITY,
+  OpenDirectoryAction,
+  ToggleVisibilityAction
+} from '../actions/fileTreeActions'
 
 export interface FileTreeState {
   isVisible: any | boolean

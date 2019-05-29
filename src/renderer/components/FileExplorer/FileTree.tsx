@@ -3,7 +3,7 @@ import Directory from './Directory'
 import File from './File'
 import { getAllFiles, QFile } from '../../../utils/files'
 import { ItemWrapper, TreeWrapper } from './styles'
-import audioDecode from 'audio-decode'
+import { loadAudioBuffer } from 'audiobuffer-loader'
 
 interface IProps {
   readonly directory: string
@@ -56,19 +56,15 @@ export default class FileTree extends React.Component<IProps, IState> {
     const { filePath, extension } = file
 
     if (filePath && extension === 'wav') {
-      // TODO: use native fs to laod file instead getting it from url
-      fetch(filePath)
-        .then(response => response.arrayBuffer())
-        .then(buffer => {
-          audioDecode(buffer).then((audioBuffer: AudioBuffer) => {
-            const audioContext = new AudioContext()
-            const source = audioContext.createBufferSource()
+      const audioContext = new AudioContext()
 
-            source.buffer = audioBuffer
-            source.connect(audioContext.destination)
-            source.start()
-          })
-        })
+      // TODO: use native fs to laod file instead getting it from url
+      loadAudioBuffer(audioContext, filePath, progress => {}).then(result => {
+        const source = audioContext.createBufferSource()
+        source.buffer = result.audioBuffer
+        source.connect(audioContext.destination)
+        source.start()
+      })
     }
   }
 

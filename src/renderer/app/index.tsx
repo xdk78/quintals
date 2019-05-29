@@ -39,6 +39,7 @@ const render = () => {
 render()
 
 // react-hot-loader
-if ((module as any).hot) {
-  (module as any).hot.accept()
+declare const module: any
+if (module.hot) {
+  module.hot.accept()
 }

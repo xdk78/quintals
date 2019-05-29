@@ -1,7 +1,10 @@
 import { app, BrowserWindow, ipcMain } from 'electron'
 import * as path from 'path'
 import * as url from 'url'
-import installExtension, { REACT_DEVELOPER_TOOLS, REDUX_DEVTOOLS } from 'electron-devtools-installer'
+import installExtension, {
+  REACT_DEVELOPER_TOOLS,
+  REDUX_DEVTOOLS
+} from 'electron-devtools-installer'
 import { homedir } from 'os'
 import server from '../server'
 
@@ -33,6 +36,7 @@ const createWindow = async () => {
     frame: false,
     backgroundColor: '#202020',
     webPreferences: {
+      nodeIntegration: true,
       webSecurity: false
     }
   })

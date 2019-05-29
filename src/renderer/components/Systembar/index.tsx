@@ -1,6 +1,15 @@
 import * as React from 'react'
 import { remote } from 'electron'
-import { Wrapper, Title, Button, Buttons, CloseButton, WrapperLine, WrapperItems, TextButton } from './styles'
+import {
+  Wrapper,
+  Title,
+  Button,
+  Buttons,
+  CloseButton,
+  WrapperLine,
+  WrapperItems,
+  TextButton
+} from './styles'
 
 const minimize = () => {
   const window = remote.BrowserWindow.getFocusedWindow()
